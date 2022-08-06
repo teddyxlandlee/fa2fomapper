@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "xland.mcmodbridge"
-version = "1.0.0"
+version = "1.0.1"
 
 repositories {
     maven(url = "https://maven.aliyun.com/repository/public") {
@@ -29,6 +29,7 @@ dependencies {
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
+    withSourcesJar()
 }
 
 tasks.getByName<Test>("test") {

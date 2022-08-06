@@ -38,7 +38,7 @@ public enum SupportedPlatform {
         return minInclusive <= version && version < maxExclusive;
     }
 
-    static SupportedPlatform current() {
+    public static SupportedPlatform current() {
         if (current == null) {
             synchronized (SupportedPlatform.class) {
                 if (current == null) {
