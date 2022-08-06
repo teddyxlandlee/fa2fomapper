@@ -1,9 +1,10 @@
 plugins {
     id("java")
+    `maven-publish`
 }
 
 group = "xland.mcmodbridge"
-version = "1.0-SNAPSHOT"
+version = "1.0.0"
 
 repositories {
     maven(url = "https://maven.aliyun.com/repository/public") {
@@ -32,4 +33,12 @@ java {
 
 tasks.getByName<Test>("test") {
     useJUnitPlatform()
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("mavenJava") {
+            from(components["java"])
+        }
+    }
 }
