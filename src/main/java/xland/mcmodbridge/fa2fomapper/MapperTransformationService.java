@@ -3,7 +3,6 @@ package xland.mcmodbridge.fa2fomapper;
 import cpw.mods.modlauncher.api.IEnvironment;
 import cpw.mods.modlauncher.api.ITransformationService;
 import cpw.mods.modlauncher.api.ITransformer;
-import cpw.mods.modlauncher.api.IncompatibleEnvironmentException;
 
 import javax.annotation.Nonnull;
 import java.util.Collections;
@@ -28,7 +27,7 @@ public class MapperTransformationService implements ITransformationService {
     }
 
     @Override
-    public void onLoad(@Nonnull IEnvironment env, @Nonnull Set<String> set) throws IncompatibleEnvironmentException {
+    public void onLoad(@Nonnull IEnvironment env, @Nonnull Set<String> set) {
 
     }
 

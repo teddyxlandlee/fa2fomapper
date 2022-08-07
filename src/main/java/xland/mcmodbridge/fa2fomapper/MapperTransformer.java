@@ -1,5 +1,6 @@
 package xland.mcmodbridge.fa2fomapper;
 
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import cpw.mods.modlauncher.api.ITransformer;
 import cpw.mods.modlauncher.api.ITransformerVotingContext;
@@ -21,9 +22,9 @@ import java.util.logging.Logger;
 
 public class MapperTransformer implements ITransformer<ClassNode> {
     private static final Logger LOGGER = Logger.getLogger("MapperTransformer");
-    private final List<MappingContextProvider> providers;
+    private ServiceLoader<MappingContextProvider> providers;
     MapperTransformer() {
-        providers = Lists.newArrayList(ServiceLoader.load(MappingContextProvider.class));
+
     }
 
     private Mapping getMapping(String originalClassName) {
@@ -56,10 +57,19 @@ public class MapperTransformer implements ITransformer<ClassNode> {
     @Override
     public Set<Target> targets() {
         final HashSet<Target> targets = new HashSet<>();
+        initProviders();
+        LOGGER.info(() -> "Providers: " + Iterables.size(providers));
         for (MappingContextProvider provider : providers) {
             for (String cls : provider.remappedClasses())
                 targets.add(Target.targetClass(cls));
         }
         return targets;
+    }
+
+    private void initProviders() {
+        if (providers == null) {
+            providers = (ServiceLoader.load(MappingContextProvider.class));
+            LOGGER.info("Initialing MapperTransformer");
+        }
     }
 }
