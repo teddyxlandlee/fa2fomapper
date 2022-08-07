@@ -1,35 +1,31 @@
-package xland.mcmodbridge.fa2fomapper;
+package xland.mcmodbridge.fa2fomapper.api;
 
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import cpw.mods.modlauncher.api.ITransformer;
 import cpw.mods.modlauncher.api.ITransformerVotingContext;
 import cpw.mods.modlauncher.api.TransformerVoteResult;
 import org.objectweb.asm.commons.ClassRemapper;
 import org.objectweb.asm.commons.Remapper;
 import org.objectweb.asm.tree.ClassNode;
-import xland.mcmodbridge.fa2fomapper.api.Mapping;
-import xland.mcmodbridge.fa2fomapper.api.MappingContextProvider;
-import xland.mcmodbridge.fa2fomapper.api.MappingContextProviders;
+import xland.mcmodbridge.fa2fomapper.SupportedPlatform;
 import xland.mcmodbridge.fa2fomapper.map.F2FClassRemapper;
 import xland.mcmodbridge.fa2fomapper.map.F2FRemapper;
 
 import javax.annotation.Nonnull;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Logger;
 
 public class MapperTransformer implements ITransformer<ClassNode> {
     private static final Logger LOGGER = Logger.getLogger("MapperTransformer");
-    private Collection<MappingContextProvider> providers;
-    MapperTransformer() {
+    private final MappingContextProvider provider;
 
+    public MapperTransformer(MappingContextProvider provider) {
+        this.provider = provider;
     }
 
     private Mapping getMapping(String originalClassName) {
-        for (MappingContextProvider provider : providers) {
-            if (provider.remappedClasses().contains(originalClassName)) {
-                return provider.getMapping(SupportedPlatform.current().getId());
-            }
+        if (provider.remappedClasses().contains(originalClassName)) {
+            return provider.getMapping(SupportedPlatform.current().getId());
         }
         LOGGER.warning("Accessing invalid class: " + originalClassName);
         return Mapping.empty();
@@ -55,20 +51,8 @@ public class MapperTransformer implements ITransformer<ClassNode> {
     @Override
     public Set<Target> targets() {
         final HashSet<Target> targets = new HashSet<>();
-        initProviders();
-        LOGGER.info(() -> "Providers: " + Iterables.size(providers));
-        for (MappingContextProvider provider : providers) {
-            for (String cls : provider.remappedClasses())
-                targets.add(Target.targetClass(cls));
-        }
+        for (String cls : provider.remappedClasses())
+            targets.add(Target.targetClass(cls));
         return targets;
-    }
-
-    private void initProviders() {
-        if (providers == null) {
-            providers = Lists.newArrayList(ServiceLoader.load(MappingContextProvider.class));
-            providers.addAll(MappingContextProviders.getProviders());
-            LOGGER.info("Initialing MapperTransformer");
-        }
     }
 }
