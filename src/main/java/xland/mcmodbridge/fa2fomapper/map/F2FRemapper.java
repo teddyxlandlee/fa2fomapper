@@ -8,6 +8,7 @@ public class F2FRemapper extends Remapper {
 
     public F2FRemapper(Mapping mapping) {
         this.mapping = mapping;
+        if ("true".equals(System.getProperty("fa2fomapper.export"))) org.apache.logging.log4j.LogManager.getLogger().warn("[F2F] Using mapping: {}", mapping);
     }
 
     @Override
