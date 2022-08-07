@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Set;
 
 public class MapperTransformationService implements ITransformationService {
-    //java.util.logging.Logger
     @Nonnull
     @Override
     public String name() {
