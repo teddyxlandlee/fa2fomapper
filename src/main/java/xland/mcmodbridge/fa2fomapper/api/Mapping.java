@@ -7,10 +7,7 @@ import com.google.common.collect.Maps;
 import org.objectweb.asm.Type;
 
 import javax.annotation.Nonnull;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Mapping {
     private final BiMap<Type, Type> classes;
@@ -49,6 +46,24 @@ public class Mapping {
 
         public Type getDesc() {
             return desc;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            NodeElement that = (NodeElement) o;
+            return Objects.equals(owner, that.owner) && Objects.equals(name, that.name) && Objects.equals(desc, that.desc);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(owner, name, desc);
+        }
+
+        @Override
+        public String toString() {
+            return owner + "." + name + ':' + desc;
         }
     }
 
@@ -195,5 +210,14 @@ public class Mapping {
 
     public static Mapping empty() {
         return new Mapping(ImmutableBiMap.of(), Collections.emptyMap(), Collections.emptyMap());
+    }
+
+    @Override
+    public String toString() {
+        return "Mapping{" +
+                "classes=" + classes +
+                ", fields=" + fields +
+                ", methods=" + methods +
+                '}';
     }
 }
