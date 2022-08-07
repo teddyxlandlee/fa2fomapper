@@ -1,4 +1,5 @@
 import org.objectweb.asm.ClassWriter
+import java.time.Instant
 import org.objectweb.asm.Opcodes as ops
 
 buildscript {
@@ -76,6 +77,18 @@ tasks.processResources {
     }
 
     dependsOn("generateModClass")
+}
+
+tasks.jar {
+    manifest.attributes(mapOf(
+        "Specification-Title" to "Fa2FoMapper",
+        "Specification-Vendor" to "teddyxlandlee",
+        "Specification-Version" to "1",
+        "Implementation-Title" to project.name,
+        "Implementation-Version" to project.version,
+        "Implementation-Vendor" to "teddyxlandlee",
+        "Implementation-Timestamp" to Instant.now()
+    ))
 }
 
 tasks.getByName<Test>("test") {
