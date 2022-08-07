@@ -1,5 +1,7 @@
 package xland.mcmodbridge.fa2fomapper.api.tiny;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.objectweb.asm.Type;
 import xland.mcmodbridge.fa2fomapper.api.Mapping;
 
@@ -9,10 +11,9 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.util.*;
 import java.util.function.Consumer;
-import java.util.logging.Logger;
 
 public class TinyUtils {
-    private static final Logger LOGGER = Logger.getLogger("TinyUtils");
+    private static final Logger LOGGER = LogManager.getLogger("TinyUtils");
 
     public static Mapping read(BufferedReader reader, String from, String to) {
         if (Objects.equals(from, to)) return Mapping.empty();
@@ -25,10 +26,10 @@ public class TinyUtils {
             else if (headerLine.startsWith("v1\t")) {
                 return readV1(reader, from, to, headerLine);
             } else {
-                LOGGER.severe("Unsupported mapping header: `" + headerLine + '`');
+                LOGGER.fatal("Unsupported mapping header: `" + headerLine + '`');
             }
         } catch (IOException e) {
-            LOGGER.severe("Can't read mapping: " + e);
+            LOGGER.fatal("Can't read mapping: " + e);
         }
         return Mapping.empty();
     }
@@ -37,14 +38,14 @@ public class TinyUtils {
                                  String headerLine) {
         List<String> headerList = Arrays.asList(headerLine.split("\t"));
         if (headerList.size() < 2) {
-            LOGGER.severe("Invalid mapping is provided - header too short");
+            LOGGER.fatal("Invalid mapping is provided - header too short");
             return Mapping.empty();
         }
         int fromIndex = headerList.indexOf(from) - 1;
         int toIndex = headerList.indexOf(to) - 1;
 
         if (fromIndex < 0 || toIndex < 0) {
-            LOGGER.severe("Invalid mapping is provided - can't find required namespace");
+            LOGGER.fatal("Invalid mapping is provided - can't find required namespace");
             return Mapping.empty();
         } else if (fromIndex == toIndex) {
             return Mapping.empty();
@@ -107,7 +108,7 @@ public class TinyUtils {
                 delayedTasks.forEach(c -> c.accept(preMapReal));
             }
         } catch (IOException e) {
-            LOGGER.severe("Can't read mapping: " + e);
+            LOGGER.fatal("Can't read mapping: " + e);
             return Mapping.empty();
         }
         return builder.build();

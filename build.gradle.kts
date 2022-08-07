@@ -14,7 +14,7 @@ plugins {
 }
 
 group = "xland.mcmodbridge"
-version = "3.0.0"
+version = "3.0.1"
 
 repositories {
     maven(url = "https://maven.aliyun.com/repository/public") {
@@ -32,6 +32,7 @@ dependencies {
     implementation("com.google.guava", "guava", "21.0")
     compileOnly("com.google.code.findbugs", "jsr305", "3.0.2")
     runtimeOnly("org.apache.logging.log4j", "log4j-core", "2.17.1")
+    compileOnly("org.apache.logging.log4j", "log4j-api", "2.17.1")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.2")
 }

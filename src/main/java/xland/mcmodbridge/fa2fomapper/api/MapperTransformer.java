@@ -3,6 +3,8 @@ package xland.mcmodbridge.fa2fomapper.api;
 import cpw.mods.modlauncher.api.ITransformer;
 import cpw.mods.modlauncher.api.ITransformerVotingContext;
 import cpw.mods.modlauncher.api.TransformerVoteResult;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.objectweb.asm.commons.ClassRemapper;
 import org.objectweb.asm.commons.Remapper;
 import org.objectweb.asm.tree.ClassNode;
@@ -13,10 +15,9 @@ import xland.mcmodbridge.fa2fomapper.map.F2FRemapper;
 import javax.annotation.Nonnull;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.logging.Logger;
 
 public class MapperTransformer implements ITransformer<ClassNode> {
-    private static final Logger LOGGER = Logger.getLogger("MapperTransformer");
+    private static final Logger LOGGER = LogManager.getLogger("MapperTransformer");
     private final MappingContextProvider provider;
 
     public MapperTransformer(MappingContextProvider provider) {
@@ -27,7 +28,7 @@ public class MapperTransformer implements ITransformer<ClassNode> {
         if (provider.remappedClasses().contains(originalClassName)) {
             return provider.getMapping(SupportedPlatform.current().getId());
         }
-        LOGGER.warning("Accessing invalid class: " + originalClassName);
+        LOGGER.warn("Accessing invalid class: " + originalClassName);
         return Mapping.empty();
     }
 

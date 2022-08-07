@@ -1,11 +1,12 @@
 package xland.mcmodbridge.fa2fomapper;
 
+import org.apache.logging.log4j.LogManager;
+
 import javax.annotation.Nullable;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
 import java.util.Arrays;
-import java.util.logging.Logger;
 
 public enum SupportedPlatform {
     FORGE_116(30, 36, "forge16"),
@@ -65,7 +66,7 @@ public enum SupportedPlatform {
         return current;
     }
 
-    private static final Logger LOGGER = Logger.getLogger("SupportedPlatform");
+    private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger("SupportedPlatform");
 
     public String getId() {
         return id;
@@ -88,7 +89,7 @@ public enum SupportedPlatform {
             } catch (ClassNotFoundException e) {
                 return null;
             } catch (NoSuchMethodException | IllegalAccessException e) {
-                Logger.getLogger("fa2fomapper.VersionGetter").warning(() ->
+                LOGGER.warn(() ->
                         "Can't get forge version: " + e);
                 return null;
             } catch (Throwable e) {
