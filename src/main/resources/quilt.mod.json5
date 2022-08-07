@@ -5,4 +5,7 @@
     mod_id: "fa2fomapper",
     version: "${version}",
   },
+  metadata: {
+    license: "LGPL-3.0"
+  },
 }
