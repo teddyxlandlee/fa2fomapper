@@ -8,8 +8,8 @@ import java.util.Arrays;
 import java.util.logging.Logger;
 
 public enum SupportedPlatform {
-    FORGE_116(32, 37, "forge16"),
-    FORGE_117(37, Integer.MAX_VALUE, "forge17"),
+    FORGE_116(30, 36, "forge16"),
+    FORGE_117(36, Integer.MAX_VALUE, "forge17"),
     OTHERS,
     ;
     private final int minInclusive, maxExclusive;
@@ -43,6 +43,7 @@ public enum SupportedPlatform {
             synchronized (SupportedPlatform.class) {
                 if (current == null) {
                     final String forgeVersion = VersionGetter.getForgeVersion();
+                    LOGGER.info(() -> "F2F: Detected Forge version: " + forgeVersion);
                     if (forgeVersion != null) {
                         int version;
                         try {
@@ -64,6 +65,8 @@ public enum SupportedPlatform {
         return current;
     }
 
+    private static final Logger LOGGER = Logger.getLogger("SupportedPlatform");
+
     public String getId() {
         return id;
     }
@@ -81,7 +84,7 @@ public enum SupportedPlatform {
                 MethodHandle mh = MethodHandles.lookup().findStatic(clazz, "replace",
                         MethodType.fromMethodDescriptorString("(Ljava/lang/String;Lnet/minecraftforge/fml/loading/moddiscovery/ModFile;)Ljava/lang/String;",
                                 VersionGetter.class.getClassLoader()));
-                return (String) mh.invoke("global.forgeVersion", null);
+                return (String) mh.invoke("${global.forgeVersion}", null);
             } catch (ClassNotFoundException e) {
                 return null;
             } catch (NoSuchMethodException | IllegalAccessException e) {

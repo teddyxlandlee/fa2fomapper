@@ -14,7 +14,7 @@ plugins {
 }
 
 group = "xland.mcmodbridge"
-version = "1.0.5"
+version = "1.0.10"
 
 repositories {
     maven(url = "https://maven.aliyun.com/repository/public") {
@@ -43,10 +43,11 @@ java {
 }
 
 task("generateModClass") {
-    val fileUuid = "128ab79f-83fb-4369-b476-bac808e39019"
+    val fileUuid = "$128ab79f83fb4369b476bac808e39019/A"
     val modId = "fa2fomapper"
     val file = tasks.processResources.get().destinationDir.resolve("${fileUuid}.class")
     afterEvaluate {
+        file.parentFile.mkdirs()
         if (file.exists()) file.delete()
         file.createNewFile()
         val writer = ClassWriter(3)
@@ -56,6 +57,7 @@ task("generateModClass") {
             this.visitVarInsn(ops.ALOAD, 0)
             this.visitMethodInsn(ops.INVOKESPECIAL, "java/lang/Object", "<init>", "()V", false)
             this.visitInsn(ops.RETURN)
+            this.visitMaxs(-1, -1)
         }
         writer.visitAnnotation("Lnet/minecraftforge/fml/common/Mod;", true).run {
             this.visit("value", modId)
