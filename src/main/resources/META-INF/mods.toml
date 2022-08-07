@@ -1,0 +1,7 @@
+modLoader="javafml"
+loaderVersion='(,)'
+license='LGPL-3.0'
+
+[[mods]]
+modId='fa2fomapper'
+version='${version}'
