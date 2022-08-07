@@ -10,19 +10,17 @@ import org.objectweb.asm.commons.Remapper;
 import org.objectweb.asm.tree.ClassNode;
 import xland.mcmodbridge.fa2fomapper.api.Mapping;
 import xland.mcmodbridge.fa2fomapper.api.MappingContextProvider;
+import xland.mcmodbridge.fa2fomapper.api.MappingContextProviders;
 import xland.mcmodbridge.fa2fomapper.map.F2FClassRemapper;
 import xland.mcmodbridge.fa2fomapper.map.F2FRemapper;
 
 import javax.annotation.Nonnull;
-import java.util.HashSet;
-import java.util.List;
-import java.util.ServiceLoader;
-import java.util.Set;
+import java.util.*;
 import java.util.logging.Logger;
 
 public class MapperTransformer implements ITransformer<ClassNode> {
     private static final Logger LOGGER = Logger.getLogger("MapperTransformer");
-    private ServiceLoader<MappingContextProvider> providers;
+    private Collection<MappingContextProvider> providers;
     MapperTransformer() {
 
     }
@@ -68,7 +66,8 @@ public class MapperTransformer implements ITransformer<ClassNode> {
 
     private void initProviders() {
         if (providers == null) {
-            providers = (ServiceLoader.load(MappingContextProvider.class));
+            providers = Lists.newArrayList(ServiceLoader.load(MappingContextProvider.class));
+            providers.addAll(MappingContextProviders.getProviders());
             LOGGER.info("Initialing MapperTransformer");
         }
     }
