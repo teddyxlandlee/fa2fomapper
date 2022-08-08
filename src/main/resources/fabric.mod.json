@@ -2,5 +2,10 @@
   "schemaVersion": 1,
   "id": "fa2fomapper",
   "license": "LGPL-3.0",
-  "version": "${version}"
+  "version": "${version}",
+  "custom": {
+    "modmenu": {
+      "badges": [ "library" ]
+    }
+  }
 }
