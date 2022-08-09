@@ -12,11 +12,11 @@ public class TinyMappingTest {
     public void test() {
         Mapping mapping = TinyUtils.read(new BufferedReader(new StringReader(MAPPING)),
                 "base", "forge17");
-        String type = mapping.mapClass("net/minecraft/class_1078");
+        //String type = mapping.mapClass("net/minecraft/class_1078");
         System.out.println(mapping);
         System.out.println("=====================================");
         System.out.println(mapping.mapMethod(Mapping.NodeElement.of(
-                type, /*getOrDefault*/"method_4679", "(Ljava/lang/String;)Ljava/lang/String;")));
+                "net/minecraft/class_1078", /*getOrDefault*/"method_4679", "(Ljava/lang/String;)Ljava/lang/String;")));
     }
 
     static final String MAPPING = "v1\tbase\tforge16\tforge17\n" +
