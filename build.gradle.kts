@@ -14,7 +14,7 @@ plugins {
 }
 
 group = "xland.mcmodbridge"
-version = "3.0.6"
+version = "4.0.0"
 
 repositories {
     maven(url = "https://maven.aliyun.com/repository/public") {
@@ -34,6 +34,7 @@ dependencies {
     runtimeOnly("org.apache.logging.log4j", "log4j-core", "2.17.1")
     compileOnly("org.apache.logging.log4j", "log4j-api", "2.17.1")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
+    testRuntimeOnly("org.ow2.asm", "asm", "9.3")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.2")
 }
 

@@ -202,7 +202,7 @@ public class Mapping {
     @Nonnull
     public NodeElement mapMethod(NodeElement element) {
         Type owner = mapType(element.owner);
-        String name = fields.getOrDefault(element, element.name);
+        String name = methods.getOrDefault(element, element.name);
         Type desc = mapMethodType(element.desc);
         if (desc == null) desc = element.desc;
         return new NodeElement(owner, name, desc);
