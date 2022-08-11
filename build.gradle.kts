@@ -14,7 +14,7 @@ plugins {
 }
 
 group = "xland.mcmodbridge"
-version = "4.0.0"
+version = "4.0.1"
 
 repositories {
     maven(url = "https://maven.aliyun.com/repository/public") {

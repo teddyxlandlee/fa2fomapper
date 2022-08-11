@@ -98,7 +98,7 @@ public class TinyUtils {
                             else
                                 builder.addField(mapping.mapClass(owner),
                                         name, nameTo,
-                                        mapping.mapMethodType(Type.getType(desc)).getDescriptor());
+                                        mapping.mapType(Type.getType(desc)).getDescriptor());
                         });
                     }
                 }
